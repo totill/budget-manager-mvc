@@ -1,0 +1,141 @@
+body {
+  background-color: rgb(255, 201, 74);
+}
+
+.whole-page {
+  background-color: rgb(121, 84, 88);
+  color: rgb(75, 52, 55);
+}
+
+.background {
+  background-color: rgb(255, 201, 74);
+}
+
+/* .background-image {
+  max-width: 500px;
+  max-width: 50vw;
+  height: auto;
+  width: 100%;
+  resize: both;
+
+  border-radius: 15px;
+} */
+
+.image-cropper {
+  border-radius: 15px;
+  overflow: hidden;
+}
+
+.header {
+  background-color: rgb(69, 63, 120);
+  color: rgb(255, 201, 74);
+}
+
+.header-two {
+  background-color: rgb(192, 139, 92);
+}
+
+.login-content {
+  background-color: rgb(192, 139, 92);
+  border-radius: 15px;
+}
+
+.btn {
+  background-color: rgb(69, 63, 120);
+  border: none;
+}
+
+.btn:hover {
+  background-color: rgb(121, 84, 88);
+}
+
+.lead {
+  text-align: justify;
+}
+
+.logo:hover {
+  color: rgb(192, 139, 92);
+}
+
+.btn-main {
+  background-color: rgb(255, 201, 74);
+  color: rgb(69, 63, 120);
+  font-weight: 500;
+}
+
+hr {
+  border-top: 2px solid rgb(75, 52, 55);
+}
+
+.btn-header {
+  background-color: rgb(192, 139, 92);
+  font-weight: 400;
+}
+
+.btn-header-two {
+  background-color: rgb(121, 84, 88);
+  color: rgb(39, 27, 29);
+  font-weight: 400;
+  margin-left: 10px;
+  margin-right: 10px;
+  margin-top: 2px;
+  margin-bottom: 2px;
+}
+
+.btn-header-two:hover {
+  color: rgb(255, 201, 74);
+}
+
+.btn-logout {
+  background-color: rgb(121, 84, 88);
+  /* font-weight: 400; */
+}
+
+.disclaimer {
+  display: inline-block;
+  background-color: rgb(69, 63, 120);
+  color: rgb(255, 201, 74);
+  padding: 15px;
+  border-radius: 15px;
+}
+
+.navbar-toggler-icon {
+  margin-bottom: 20px;
+}
+
+#balance-page tr.total-row {
+  background-color: rgb(255, 201, 74);
+  color: rgb(75, 52, 55);
+}
+
+#balance-page .table {
+  color: rgb(75, 52, 55);
+}
+
+#balance-page h4.balance-positive {
+  background-color: rgb(174, 201, 79);
+  color: rgb(79, 133, 17);
+  padding: 12px 20px;
+  border-radius: 8px;
+  border-left: 6px solid rgb(79, 133, 17);
+}
+
+#balance-page h4.balance-negative {
+  background-color: rgb(238, 175, 168);
+  color: rgb(133, 31, 17);
+  padding: 12px 20px;
+  border-radius: 8px;
+  border-left: 6px solid rgb(133, 31, 17);
+}
+
+#balance-page .alert-success {
+  background-color: rgb(212, 224, 167);
+  border-color: rgb(174, 201, 79);
+  color: rgb(75, 52, 55);
+}
+
+#balance-page .alert-danger {
+  background-color: rgb(236, 205, 201);
+  border-color: rgb(238, 175, 168);
+  color: rgb(75, 52, 55);
+}
