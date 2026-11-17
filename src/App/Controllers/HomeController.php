@@ -10,8 +10,7 @@ use App\Services\TransactionService;
 class HomeController
 {
     public function __construct(
-        private TemplateEngine $view,
-        private TransactionService $transactionService
+        private TemplateEngine $view
     ) {}
 
     public function home()

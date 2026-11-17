@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Services;
 
 use Framework\Database;
+use App\Exceptions\ValidationException;
 
 class TransactionService
 {
@@ -19,7 +20,7 @@ class TransactionService
             VALUES(:user_id, :amount, :date, :category, :description)",
             [
                 'user_id' => $_SESSION['user'],
-                'amount' => $formData['amount'],
+                'amount' => $this->normalizeAmount((string) $formData['amount']),
                 'date' => $formattedDate,
                 'category' => $formData['category'],
                 'description' => $formData['description']
@@ -36,7 +37,7 @@ class TransactionService
             VALUES(:user_id, :amount, :date, :category, :payment_method, :description)",
             [
                 'user_id' => $_SESSION['user'],
-                'amount' => $formData['amount'],
+                'amount' => $this->normalizeAmount((string) $formData['amount']),
                 'date' => $formattedDate,
                 'category' => $formData['category'],
                 'payment_method' => $formData['payment_method'],
@@ -86,7 +87,6 @@ class TransactionService
 
     public function getUserIncomes(int $userId,  string $startDate, string $endDate): array
     {
-        // $searchTerm = addcslashes($_GET['s'] ?? '', '%_');
         $params =             [
             'user_id' => $userId,
             'start_date' => $startDate . ' 00:00:00',
@@ -102,30 +102,18 @@ class TransactionService
             $params
         )->findAll();
 
-        $sumIncomes = 0.0;
-        $incomeByCategory = [];
-
-        foreach ($incomes as $income) {
-            $amount = (float) $income['amount'];
-            $category = $income['category'];
-
-            $sumIncomes += $amount;
-            $incomeByCategory[$category] = ($incomeByCategory[$category] ?? 0.0) + $amount;
-        }
-
-        arsort($incomeByCategory);
+        $incomeByCategory = $this->sumByCategory('income', $userId, $startDate, $endDate);
 
         return [
             'incomes' => $incomes,
             'incomesCount' => count($incomes),
-            'sumIncomes' => $sumIncomes,
+            'sumIncomes' => array_sum($incomeByCategory),
             'incomeByCategory' => $incomeByCategory
         ];
     }
 
     public function getUserExpenses(int $userId,  string $startDate, string $endDate): array
     {
-        // $searchTerm = addcslashes($_GET['s'] ?? '', '%_');
         $params =             [
             'user_id' => $userId,
             'start_date' => $startDate . ' 00:00:00',
@@ -141,23 +129,12 @@ class TransactionService
             $params
         )->findAll();
 
-        $sumExpenses = 0.0;
-        $expenseByCategory = [];
-
-        foreach ($expenses as $expense) {
-            $amount = (float) $expense['amount'];
-            $category = $expense['category'];
-
-            $sumExpenses += $amount;
-            $expenseByCategory[$category] = ($expenseByCategory[$category] ?? 0.0) + $amount;
-        }
-
-        arsort($expenseByCategory);
+        $expenseByCategory = $this->sumByCategory('expense', $userId, $startDate, $endDate);
 
         return [
             'expenses' => $expenses,
             'expensesCount' => count($expenses),
-            'sumExpenses' => $sumExpenses,
+            'sumExpenses' => array_sum($expenseByCategory),
             'expenseByCategory' => $expenseByCategory
         ];
     }
@@ -190,5 +167,35 @@ class TransactionService
             'alertClass' => 'alert-warning',
             'alertText' => 'Bilans zerowy.'
         ];
+    }
+
+    private function normalizeAmount(string $amount): string
+    {
+        $amount = str_replace([' ', ','], ['', '.'], trim($amount));
+
+        if (!is_numeric($amount) || (float) $amount <= 0) {
+            throw new ValidationException(['amount' => ['Kwota musi być liczbą większą od 0']]);
+        }
+
+        return number_format((float) $amount, 2, '.', '');
+    }
+
+    private function sumByCategory(string $table, int $userId, string $start, string $end): array
+    {
+        $allowed = ['income', 'expense'];
+        if (!in_array($table, $allowed, true)) {
+            throw new \InvalidArgumentException('Invalid table');
+        }
+
+        $rows = $this->db->query(
+            "SELECT category, SUM(amount) AS total
+         FROM {$table}
+         WHERE user_id = :user_id AND date BETWEEN :start AND :end
+         GROUP BY category
+         ORDER BY total DESC",
+            ['user_id' => $userId, 'start' => "$start 00:00:00", 'end' => "$end 23:59:59"]
+        )->findAll();
+
+        return array_column($rows, 'total', 'category');
     }
 }

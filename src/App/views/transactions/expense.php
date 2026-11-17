@@ -1,5 +1,6 @@
 <?php include $this->resolve("partials/_header-zalogowany.php"); ?>
 
+
 <section id="expense-page" class="background">
     <div class="container col-xxl-8 px-4 py-5 whole-page">
         <div
@@ -60,11 +61,11 @@
                             required>
                             <option value="">Wybierz...</option>
 
-                            <option value="Gotówka" <?php echo ($oldFormData['payment_method'] ?? '') === 'Gotówka' ? 'selected' : '' ?>>Gotówka</option>
-
-                            <option value="Karta kredytowa" <?php echo ($oldFormData['payment_method'] ?? '') === 'Karta kredytowa' ? 'selected' : '' ?>>Karta kredytowa</option>
-
-                            <option value="Karta debetowa" <?php echo ($oldFormData['payment_method'] ?? '') === 'Karta debetowa' ? 'selected' : '' ?>>Karta debetowa</option>
+                            <?php foreach ($paymentMethods as $method) : ?>
+                                <option value="<?= e($method) ?>" <?= ($oldFormData['payment_method'] ?? '') === $method ? 'selected' : '' ?>>
+                                    <?= e($method) ?>
+                                </option>
+                            <?php endforeach; ?>
 
                         </select>
 
@@ -89,39 +90,9 @@
 
                             <option value="">Wybierz...</option>
 
-                            <option value="Jedzenie" <?php echo ($oldFormData['category'] ?? '') === 'Jedzenie' ? 'selected' : '' ?>>Jedzenie</option>
-
-                            <option value="Mieszkanie" <?php echo ($oldFormData['category'] ?? '') === 'Mieszkanie' ? 'selected' : '' ?>>Mieszkanie</option>
-
-                            <option value="Transport" <?php echo ($oldFormData['category'] ?? '') === 'Transport' ? 'selected' : '' ?>>Transport</option>
-
-                            <option value="Telekomunikacja" <?php echo ($oldFormData['category'] ?? '') === 'Telekomunikacja' ? 'selected' : '' ?>>Telekomunikacja</option>
-
-                            <option value="Opieka zdrowotna" <?php echo ($oldFormData['category'] ?? '') === 'Opieka zdrowotna' ? 'selected' : '' ?>>Opieka zdrowotna</option>
-
-                            <option value="Ubranie" <?php echo ($oldFormData['category'] ?? '') === 'Ubranie' ? 'selected' : '' ?>>Ubranie</option>
-
-                            <option value="Higiena" <?php echo ($oldFormData['category'] ?? '') === 'Higiena' ? 'selected' : '' ?>>Higiena</option>
-
-                            <option value="Dzieci" <?php echo ($oldFormData['category'] ?? '') === 'Dzieci' ? 'selected' : '' ?>>Dzieci</option>
-
-                            <option value="Rozrywka" <?php echo ($oldFormData['category'] ?? '') === 'Rozrywka' ? 'selected' : '' ?>>Rozrywka</option>
-
-                            <option value="Wycieczka" <?php echo ($oldFormData['category'] ?? '') === 'Wycieczka' ? 'selected' : '' ?>>Wycieczka</option>
-
-                            <option value="Szkolenia" <?php echo ($oldFormData['category'] ?? '') === 'Szkolenia' ? 'selected' : '' ?>>Szkolenia</option>
-
-                            <option value="Książki" <?php echo ($oldFormData['category'] ?? '') === 'Książki' ? 'selected' : '' ?>>Książki</option>
-
-                            <option value="Oszczędności" <?php echo ($oldFormData['category'] ?? '') === 'Oszczędności' ? 'selected' : '' ?>>Oszczędności</option>
-
-                            <option value="Na złotą jesień, czyli emeryturę" <?php echo ($oldFormData['category'] ?? '') === 'Na złotą jesień, czyli emeryturę' ? 'selected' : '' ?>>Na złotą jesień, czyli emeryturę</option>
-
-                            <option value="Spłata długów" <?php echo ($oldFormData['category'] ?? '') === 'Spłata długów' ? 'selected' : '' ?>>Spłata długów</option>
-
-                            <option value="Darowizna" <?php echo ($oldFormData['category'] ?? '') === 'Darowizna' ? 'selected' : '' ?>>Darowizna</option>
-
-                            <option value="Inne wydatki" <?php echo ($oldFormData['category'] ?? '') === 'Inne wydatki' ? 'selected' : '' ?>>Inne wydatki</option>
+                            <?php foreach ($categories as $cat) : ?>
+                                <option value="<?= e($cat) ?>" <?= ($oldFormData['category'] ?? '') === $cat ? 'selected' : '' ?>><?= e($cat) ?></option>
+                            <?php endforeach; ?>
 
                         </select>
 

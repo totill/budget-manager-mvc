@@ -37,9 +37,7 @@
                 </a>
                 <ul class="nav nav-pills align-items-center">
                     <li class="nav-item px-2">Zalogowany jako:
-                        <!-- <?php echo e($users['name']); ?> -->
-                        <?php echo $_SESSION['name']; ?>
-                        <!-- <?= htmlspecialchars($_SESSION['user'], ENT_QUOTES, 'UTF-8') ?> -->
+                        <?php echo e($_SESSION['name'] ?? ''); ?>
                     </li>
 
 

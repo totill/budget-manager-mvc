@@ -6,6 +6,7 @@ namespace App\Controllers;
 
 use Framework\TemplateEngine;
 use App\Services\{ValidatorService, TransactionService};
+use App\Config\Categories;
 
 class TransactionController
 {
@@ -14,12 +15,14 @@ class TransactionController
         private ValidatorService $validatorService,
         private TransactionService $transactionService
     ) {
-        $this->transactionService = $transactionService;
+        // $this->transactionService = $transactionService;
     }
 
     public function createViewIncome()
     {
-        echo $this->view->render("transactions/income.php");
+        echo $this->view->render("transactions/income.php", [
+            'categories' => Categories::INCOME,
+        ]);
     }
 
     public function createIncome()
@@ -33,7 +36,10 @@ class TransactionController
 
     public function createViewExpense()
     {
-        echo $this->view->render("transactions/expense.php");
+        echo $this->view->render("transactions/expense.php", [
+            'categories' => Categories::EXPENSE,
+            'paymentMethods' => Categories::PAYMENT
+        ]);
     }
 
     public function createExpense()
@@ -45,14 +51,9 @@ class TransactionController
         redirectTo('/main-menu');
     }
 
-    public function createShowBalance()
+    public function showBalance()
     {
-        echo $this->view->render("transactions/balance.php");
-    }
-
-    public function createViewShowBalance()
-    {
-        $userId = $_SESSION['user'] ?? null;
+        $userId = (int) $_SESSION['user'];
 
         if (!$userId) {
             header('Location: /login');

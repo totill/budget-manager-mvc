@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Services;
 
+use App\Config\Categories;
+use Framework\Exceptions\ValidationException;
 use Framework\Validator;
 use Framework\Rules\{
     RequiredRule,
@@ -74,6 +76,12 @@ class ValidatorService
             'category' => ['required'],
             'description' => ['lengthMax:255']
         ]);
+
+        if (!in_array($formData['category'], Categories::INCOME, true)) {
+            throw new ValidationException([
+                'category' => ['Nieprawidłowa kategoria przychodu']
+            ]);
+        }
     }
 
     public function validateExpense(array $formData)
@@ -85,5 +93,12 @@ class ValidatorService
             'payment_method' => ['required'],
             'description' => ['lengthMax:255']
         ]);
+
+        if (!in_array($formData['category'], Categories::EXPENSE, true)) {
+            throw new ValidationException(['category' => ['Nieprawidłowa kategoria']]);
+        }
+        if (!in_array($formData['payment_method'], Categories::PAYMENT, true)) {
+            throw new ValidationException(['payment_method' => ['Nieprawidłowa metoda płatności']]);
+        }
     }
 }

@@ -61,13 +61,11 @@
 
                             <option value="">Wybierz...</option>
 
-                            <option value="Wynagrodzenie" <?php echo ($oldFormData['category'] ?? '') === 'Wynagrodzenie' ? 'selected' : '' ?>>Wynagrodzenie</option>
-
-                            <option value="Odsetki bankowe" <?php echo ($oldFormData['category'] ?? '') === 'Odsetki bankowe' ? 'selected' : '' ?>>Odsetki bankowe</option>
-
-                            <option value="Sprzedaż na Allegro" <?php echo ($oldFormData['category'] ?? '') === 'Sprzedaż na Allegro' ? 'selected' : '' ?>>Sprzedaż na Allegro</option>
-
-                            <option value="Inne" <?php echo ($oldFormData['category'] ?? '') === 'Inne' ? 'selected' : '' ?>>Inne</option>
+                            <?php foreach ($categories as $cat) : ?>
+                                <option value="<?= e($cat) ?>" <?= ($oldFormData['category'] ?? '') === $cat ? 'selected' : '' ?>>
+                                    <?= e($cat) ?>
+                                </option>
+                            <?php endforeach; ?>
 
                         </select>
 
